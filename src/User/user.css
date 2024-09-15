@@ -1,0 +1,22 @@
+.right-col{
+    border-right: 1px solid black;
+    height: 100vh;
+}
+.account .image img{
+    height: 250px;
+    width: 250px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #dfdfdf;
+    margin: 20px;
+}
+input[type="file"]{
+    color:transparent ;
+    margin: 10px;
+}
+.inputData{
+    margin: 10px;
+}
+.inputData input{
+   padding: 5px;
+}
