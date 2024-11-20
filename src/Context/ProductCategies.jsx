@@ -37,7 +37,7 @@ function ProductCategories() {
   }, [category]);
   const handleAddCart = (product) => {
     // console.log(product.id)
-    toast.error("Succes Add To Cart")
+    toast.success("Succes Add To Cart")
     addToCart(product);
   };
 

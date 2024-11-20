@@ -5,6 +5,7 @@ import ProductCategies from "./ProductCategies";
 import axios from "axios";
 import { BiHeart } from "react-icons/bi";
 import Footer from "../Component/Footer";
+import { toast, ToastContainer } from "react-toastify";
 
 function Products() {
   const { products, addToCart ,addProductToFavorite } = useContext(DataContext);
@@ -23,6 +24,7 @@ function Products() {
   const handleAddCart = (product) => {
     // console.log(product.id)
     addToCart(product);
+    toast.success("Add To Cart")
   };
   const handleHeart = (product) => {
     // console.log(product);
@@ -30,6 +32,7 @@ function Products() {
   };
   return (
     <>
+    <ToastContainer position="top-center" />
       <h1 className="text-center m-2">Products Categories</h1>
       <li className="d-flex p-2 m-2  text-center category-item">
         <Link to="/products" className="category-link">

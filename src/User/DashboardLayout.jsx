@@ -10,17 +10,17 @@ function DashboardLayout(){
           <nav className="mt-2">
             <ol>
               <li>
-                <Link to="/dashboardUser/profile">Profile</Link>
+                <Link className="m-2" to="/dashboardUser/profile">Profile</Link>
               </li>
 
               <li>
-                <Link to="/dashboardUser">Purchases</Link>
+                <Link className="m-2" to="/dashboardUser">Purchases</Link>
               </li>
               <li>
-                <Link to="/dashboardUser">Support</Link>
+                <Link className="m-2" to="/dashboardUser">Support</Link>
               </li>
               <li>
-                <Link to="/dashboardUser">Setting</Link>
+                <Link className="m-2" to="/dashboardUser">Setting</Link>
               </li>
             </ol>
           </nav>
