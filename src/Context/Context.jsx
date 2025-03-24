@@ -1,6 +1,7 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { createContext } from "react";
+import axios from "axios";
+
 export const DataContext = createContext();
 function Context({ children }) {
   // const [products, setProducts] = useState([
