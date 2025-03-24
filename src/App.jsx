@@ -18,6 +18,7 @@ import ProductCategories from "./Context/ProductCategies";
 import Favorite from "./Component/Favorite";
 import CreateAccout from "./User/CreateAccout";
 import AboutShow from "./Component/AboutShow";
+import CreateAccount from "./User/CreateAccout";
 
 function App() {
   // const location = useLocation()
@@ -38,13 +39,15 @@ function App() {
         <Route path="/products/:category" element={<ProductCategories />} />
         <Route path="/checkout" element={<ChechOut />} />
         <Route path="/checkout/confirm" element={<Confirm />} />
+        <Route path="/login" element={<SignUp />} />
         <Route path="/dashboardUser" element={<DashboardLayout />}>
-          <Route index element={ <DashboardHome />} />
-          <Route path="signUp" element={<SignUp />} />
-          <Route path="profile" element={ <Account /> } />
+          <Route index element={<DashboardHome />} />
+          <Route path="profile" element={<Account />} />
           <Route path="profile/edit" element={<EditProfile />} />
-          <Route path="create_account" element={<CreateAccout />} />
+          <Route path="create_account" element={<CreateAccount />} />
+          {/* تصحيح التسمية */}
         </Route>
+
         {/* <Route path="/dashboardUser/signUp" element={<SignUp />} /> */}
       </Routes>
     </BrowserRouter>

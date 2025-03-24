@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DataContext } from "./Context";
 import { Link, useParams } from "react-router-dom";
 import Footer from "../Component/Footer";
@@ -6,38 +6,60 @@ import Footer from "../Component/Footer";
 function ProductDetails() {
   const { products, addToCart } = useContext(DataContext);
   const { id } = useParams();
-  // console.log(id)
+  
+  const [productDetails, setProductDetails] = useState(null); 
+
   const handleAddCart = (productDetails) => {
-    // console.log(productDetails)
     addToCart(productDetails);
   };
-  const productDetails = products.find((product) => product.id == id);
-  //   console.log(productDetails);
+
+  useEffect(() => {
+    // البحث عن المنتج باستخدام id
+    const foundProduct = products.find((product) => product.id == id);
+    setProductDetails(foundProduct); 
+  }, [id, products]);
+
+
+  if (!productDetails) {
+    return <div className="text-center">Loading...</div>;
+  }
+
   return (
     <>
-     <div className="product-details">
-      <img src={productDetails.image} alt="product" />
-      <div className="details">
-        <h2>{productDetails.title}</h2>
-        <span>Price : {productDetails.price} $</span>
-        <h3>{productDetails.category}</h3>
-        <Link to="/cart">
-          <button
-            className="btn btn-primary  m-2"
-            onClick={() => handleAddCart(productDetails)}
-          >
-            Buy Now
-          </button>
-        </Link>
-        <hr />
-        <h2>Product Details</h2>
-        <p>{productDetails.description}</p>
+      <div className="container mt-5 mb-5">
+        <div className="row">
+          <div className="col-md-6 text-center ">
+            <img
+              src={productDetails.image}
+              alt="product"
+              style={{ height: "450px" , width:"100%"}}
+            />
+          </div>
+          <div className="col-md-6">
+            <div className="details mt-4">
+              <h2 className="text-center mb-3">{productDetails.title}</h2>
+              <p className="h5 mb-2">Price: {productDetails.price} $</p>
+              <h4 className="mb-4">{productDetails.category}</h4>
+
+              <Link to="/cart">
+                <button
+                  className="btn btn-primary w-100 mb-3"
+                  onClick={() => handleAddCart(productDetails)}
+                >
+                  Buy Now
+                </button>
+              </Link>
+
+              <hr />
+              <h3>Product Details</h3>
+              <p>{productDetails.description}</p>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <Footer />
+
+      <Footer />
     </>
-  
-   
   );
 }
 

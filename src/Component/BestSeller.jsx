@@ -1,67 +1,55 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import "./App.css";
 import { CiHeart } from "react-icons/ci";
 import axios from "axios";
+import { DataContext } from "../Context/Context";
+import { toast, ToastContainer } from "react-toastify";
 
 function BestSeller() {
-  // const [productSeller, setProductSeller] = useState([
-  //   {
-  //     id: 1,
-  //     name: "Groovy ",
-  //     image:
-  //       "https://res.cloudinary.com/drxjpp8aw/image/upload/v1716382642/food7_ssjhpm.jpg",
-  //     price: 70 ,
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "PROcat ",
-  //     image:
-  //       "https://res.cloudinary.com/drxjpp8aw/image/upload/v1716382643/eat_2_ka3a1u.jpg",
-  //     price: 75,
-  //   },
+  const [productSeller, setProductSeller] = useState([]);
+  const { addToCart } = useContext(DataContext);
+  useEffect(() => {
+    axios.get("https://fakestoreapi.com/products?limit=4").then((res) => {
+      setProductSeller(res.data);
+    });
+  }, []);
+  const handleAddCart = (product) => {
+    addToCart(product);
+    toast.success("Added to Cart");
+    return
+  };
 
-  //   {
-  //     id: 3,
-  //     name: "Blubo ",
-  //     image:
-  //       "https://res.cloudinary.com/drxjpp8aw/image/upload/v1716382643/food6_geoufu.jpg",
-  //     price: 80,
-  //   },
-  //   {
-  //     id: 4,
-  //     name: "PROcat ",
-  //     image:
-  //       "https://res.cloudinary.com/drxjpp8aw/image/upload/v1716382650/food5_qjzgq4.jpg",
-  //     price: 75,
-  //   },
-  // ]);
-
-  //   https://fakestoreapi.com/products
-  //   https://fakestoreapi.com/products/categories
-
-  const [productSeller, setProductSeller] = useState([])
-  useEffect(()=>{
-    axios.get("https://fakestoreapi.com/products?limit=4").then((res)=>{
-      setProductSeller(res.data)
-    })
-  },[])
   return (
-    <div className="container bestSeller mt-2 mb-2">
-      <div className="head-title ">
-        <h1>Best seller</h1>
-        <Link to="/products">See All</Link>
+    <div className="container mt-4">
+      <ToastContainer />
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h1>Best Seller</h1>
+        <Link to="/products" className="btn btn-outline-primary">
+          See All
+        </Link>
       </div>
-      <div className="products-seller">
+      <div className="row">
         {productSeller.map((pro) => (
-          <div className="product-box-seller" key={pro.id}>
-             <CiHeart className="icon-heart" />
-            <img src={pro.image} alt="products-seller" />
-            {/* <div className="details"> */}
-              <h4 className="mt-3">{pro.title.slice(0,17)}</h4>
-              <span>{pro.price}  EG</span>
-            {/* </div> */}
-            <button className="mt-2">Buy Now</button>
+          <div className="col-md-3 mb-4" key={pro.id}>
+            <div className="card shadow-sm">
+              <div className="card-body">
+                {/* <CiHeart className="text-danger position-absolute top-0 end-0 m-3" /> */}
+                <img
+                  src={pro.image}
+                  alt="product-seller"
+                  className="card-img-top"
+                  style={{ height: "200px" }}
+                />
+                <h4 className="mt-3">{pro.title.slice(0, 17)}</h4>
+                <span>{pro.price} EG</span>
+                <button
+                  className="btn btn-primary mt-2 w-100"
+                  onClick={() => handleAddCart(pro)}
+                >
+                  Buy Now
+                </button>
+              </div>
+            </div>
           </div>
         ))}
       </div>

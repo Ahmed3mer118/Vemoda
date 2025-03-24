@@ -1,4 +1,4 @@
-/* css for context */
+css for context
 
 *{
     margin: 0;
@@ -12,7 +12,7 @@
    --white-color: white
  }
  /* cart  */
- .cart{
+ /* .cart{
   position: relative;
 }
 .cart .card{
@@ -26,18 +26,9 @@
     justify-content: space-between;
     align-items: center;
     
-}
-@media (max-width:991px){
-    .cart table{
-        width: 100%;
-    }
-    .cart .card{
-        position: relative  ;
-        right: 0;
-        top: 35px;
-    }
+} */
 
-}
+
 @media (max-width:767px){
     .cart table {
         width: 100%;

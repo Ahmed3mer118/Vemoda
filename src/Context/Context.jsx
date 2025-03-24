@@ -88,8 +88,7 @@ function Context({ children }) {
   // ]);
   const [products, setProducts] = useState([]);
   const [productFave, setProductFave] = useState([]);
-  
-  
+
   useEffect(() => {
     axios.get("https://fakestoreapi.com/products").then((res) => {
       setProducts(res.data);
@@ -143,7 +142,7 @@ function Context({ children }) {
     if (productFind !== -1) {
       // clone
       const prodFve = [...productFave];
-      
+
       setProductFave(prodFve);
       localStorage.setItem("favoriteProduct", JSON.stringify(productFave));
     } else {
@@ -153,7 +152,6 @@ function Context({ children }) {
     // localStorage.setItem("favoriteProduct", JSON.stringify(productFave));
   };
 
-  
   return (
     <DataContext.Provider
       value={{

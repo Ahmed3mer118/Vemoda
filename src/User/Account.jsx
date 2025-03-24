@@ -1,74 +1,58 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 function Account() {
+  const [userData, setUserData] = useState({});
   const [image, setImage] = useState(null);
-  const location = useLocation();
   const navigate = useNavigate();
 
-  const handleUpdataProfile = () => {
-    navigate("/dashboardUser/profile/edit" ,{storageData:data});
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("dataUser"));
+    if (storedUser) {
+      setUserData(storedUser);
+      setImage(storedUser.image);
+    }
+  }, []);
+
+  const handleUpdateProfile = () => {
+    navigate("/dashboardUser/profile/edit");
   };
+
   const handleImageChange = (event) => {
     event.preventDefault();
     const file = event.target.files[0];
-    setImage(URL.createObjectURL(file));
-    setData({ ...data, image });
-    // setData({ ...data, image: URL.createObjectURL(file) });
-    console.log({...data,image})
-    // console.log()
-    localStorage.setItem("dataUser", JSON.stringify(data))
+    const imageUrl = URL.createObjectURL(file);
+    setImage(imageUrl);
+    const updatedUser = { ...userData, image: imageUrl };
+    setUserData(updatedUser);
+    localStorage.setItem("dataUser", JSON.stringify(updatedUser));
   };
 
   return (
     <div className="account">
-      <h1 className="text-center mt-2"> My Profile</h1>
+      <h1 className="text-center mt-2">My Profile</h1>
 
       <div className="image">
-        {image ? <img src={image} alt="image" /> : "Image User"}
-        {!image && (
-          <input type="file" accept="image" onChange={handleImageChange} />
-        )}
+        {image ? <img src={image} alt="User Profile" width="150" /> : "No Image"}
+        <input type="file" accept="image/*" onChange={handleImageChange} />
       </div>
-      <table>
-        <thead>
-          <tr className="inputData">
-            <th>
-              <label htmlFor="username">User Name : </label>
-            </th>
-            <td>
-              <input type="text" disabled id="username" />
-            </td>
-          </tr>
 
-          <tr className="inputData">
-            <th>
-              <label htmlFor="password">Password : </label>
-            </th>
-            <td>
-              <input
-                type="password"
-                disabled
-              
-                id="password"
-              />
-            </td>
+      <table>
+        <tbody>
+          <tr>
+            <th>Username:</th>
+            <td>{userData.name || "Not Set"}</td>
           </tr>
-          <tr className="inputData">
-            <th>
-              <label htmlFor="email">Email:</label>
-            </th>
-            <td>
-              <input type="email" disabled  id="email" />
-            </td>
+          <tr>
+            <th>Email:</th>
+            <td>{userData.email || "Not Set"}</td>
           </tr>
-        </thead>
+        </tbody>
       </table>
-      <Link to="/dashboardUser/profile/edit">
-      <button className="btn btn-success" >
+
+      <button className="btn btn-success" onClick={handleUpdateProfile}>
         Edit Profile
       </button>
-      </Link>
     </div>
   );
 }

@@ -11,74 +11,95 @@ function ProductCategories() {
   const [loading, setLoading] = useState(false);
   const [productCategies, setProductCategies] = useState([]);
 
-  const {addToCart} = useContext(DataContext)
-  //   links
+  const { addToCart } = useContext(DataContext);
+
   useEffect(() => {
     axios.get("https://fakestoreapi.com/products/categories").then((res) => {
-      // console.log(res.data);
       setProductCategies(res.data);
     });
   }, []);
-  // category
+
   useEffect(() => {
     setLoading(true);
     axios
       .get(`https://fakestoreapi.com/products/category/${category}`)
       .then((res) => {
         setProducts(res.data);
+        setLoading(false);
       })
       .catch((error) => {
-        console.error(
-          `Error fetching products for category ${category}:`,
-          error
-        );
+        console.error(`Error fetching products for category ${category}:`, error);
+        setLoading(false);
       });
-    setLoading(false);
   }, [category]);
+
   const handleAddCart = (product) => {
-    // console.log(product.id)
-    toast.success("Succes Add To Cart")
+    toast.success("Added to Cart");
     addToCart(product);
   };
 
   return (
     <>
-    {/* <ToastContainer /> */}
-    <ToastContainer position="top-center" />
-      <h1 className="text-center m-2">Product Categories</h1>
-      <li className="d-flex p-2 m-2  text-center category-item">
-        <Link to="/products" className="category-link">
-          All Product
-        </Link>
-        {productCategies.map((pro) => (
-          <NavLink
-            key={Math.random()}
-            to={`/products/${pro}`}
-            className="category-link"
-          >
-            {pro}
-          </NavLink>
-        ))}
-      </li>
-      <div className="products container">
-        {products.map((product) => (
-          <div className="product-box" key={product.id}>
-            <Link to={`/products/details/${product.id}`}>
-              <img src={product.image} alt="product" />
-            </Link>
-            <div className="details">
-              <h5>{product.title.slice(0,17)}</h5>
-              <span>{product.price} $</span>
-            </div>
-            <h2>{product.category}</h2>
+      <ToastContainer position="top-center" />
+      <div className="container">
+        <h1 className="text-center my-4">Product Categories</h1>
+        
+        <div className="mb-4">
+          <ul className="list-inline text-center">
+            <li className="list-inline-item">
+              <Link to="/products" className="btn btn-primary">
+                All Products
+              </Link>
+            </li>
+            {productCategies.map((pro) => (
+              <li className="list-inline-item" key={pro}>
+                <NavLink
+                  to={`/products/${pro}`}
+                  className="btn btn-outline-secondary mx-2"
+                >
+                  {pro}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-            <p>Rating : {product.rating.rate}</p>
-            <p> Count : {product.rating.count}</p>
-            <button onClick={() => handleAddCart(product)}>Add To Cart</button>
-          </div>
-        ))}
-        {loading && <h1 className="text-primary mt-2">Loading....</h1>}
+        <div className="row">
+          {loading ? (
+            <h3 className="text-center text-primary w-100">Loading...</h3>
+          ) : (
+            products.map((product) => (
+              <div className="col-md-3 col-sm-6 mb-4" key={product.id}>
+                <div className="card p-3">
+                  <Link to={`/products/details/${product.id}`}>
+                    <img
+                      src={product.image}
+                      alt={product.title}
+                      className="card-img-top"
+                      style={{height:"200px"}}
+                    />
+                  </Link>
+                  <div className="card-body">
+                    <h5 className="card-title">{product.title.slice(0, 17)}</h5>
+                    <p className="card-text">{product.price} $</p>
+                    <p className="card-text"><strong>Category:</strong> {product.category}</p>
+                    <p className="card-text">
+                      <strong>Rating:</strong> {product.rating.rate} | <strong>Count:</strong> {product.rating.count}
+                    </p>
+                    <button
+                      className="btn btn-success"
+                      onClick={() => handleAddCart(product)}
+                    >
+                      Add To Cart
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
       </div>
+
       <Footer />
     </>
   );
